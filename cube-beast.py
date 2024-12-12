@@ -7,14 +7,14 @@ from lib.battleroyalecalculation import get_m_stat, get_win_stat
 from lib.gemtrading import get_gift_logs
 from lib.gemmine import *
 from lib.logininfo import *
-from lib.cameoshell import 贝壳市场
-from lib.account import send_verification_code, login, 验证token
+from lib.cameoshell import shell_market
+from lib.account import send_verification_code, login, logintoken
 from lib.snowfunction import is_time_to_sleep, currenttime
 import res.favicon as favicon
 
 data = ""
 history = ""
-乌龟ID = ""
+turtle_id = ""
 is_sleep = 0
 shell_sell_rice = 0
 need_stop = 0
@@ -41,7 +41,7 @@ def login():
 
 def get_login():
     time.sleep(1)
-    is_login = 验证token()
+    is_login = logintoken()
     if is_login.get("errorCode") == None:
         app.title(f"{is_login['nickname']} - 方块兽")
         # 开始运行
@@ -132,15 +132,15 @@ def pet_heartbeat():
         # 睡眠检测
         if is_time_to_sleep():
             if data["desktopDisplay"] == 1:
-                召回显示乌龟(0, 乌龟ID)
+                recall_display_turtle(0, turtle_id)
             is_sleep = 1
         else:
             if data["desktopDisplay"] == 0:
-                召回显示乌龟(1, 乌龟ID)
+                recall_display_turtle(1, turtle_id)
             is_sleep = 0
         # 心跳
         if not is_sleep:
-            宠物心跳()
+            pet_heartbeat()
     except Exception as e:
         print(f"\n刷新异常!\n{e}")
     heartbeat_thread = threading.Timer(5, pet_heartbeat)
@@ -154,9 +154,9 @@ def update_data():
         return
     try:
         global data, history
-        data = dict(获取乌龟信息())
-        history = dict(捡宝历史())
-        shell_sell_rice = float(贝壳市场(0)[0]["price"])
+        data = dict(get_turtle_information())
+        history = dict(treasure_hunt_history())
+        shell_sell_rice = float(shell_market(0)[0]["price"])
     except KeyError:
         pass
     except Exception as e:
@@ -176,7 +176,7 @@ def pick_up():
     if is_sleep:
         return
     try:
-        捡起宝石()
+        pickup_gems()
     except Exception as e:
         print(f"\n刷新异常!\n{e}")
     pickup_thread = threading.Timer(5, pick_up)
@@ -226,8 +226,8 @@ def main():
 
             if bool(get_value("auto_feed")) and not is_sleep:
                 if int(data["hunger"]) < 78:
-                    乌龟喂养(乌龟ID)
-                    乌龟清理(乌龟ID)
+                    turtle_feeding(turtle_id)
+                    turtle_cleanup(turtle_id)
 
             time.sleep(1)
         except Exception as e:
@@ -242,10 +242,10 @@ def cave_mine():
     if need_stop:
         return
     try:
-        挖矿(0)
-        挖矿(1)
-        if 剩余挖矿时间() < 48.00:
-            挖矿(2)  # 自动加时
+        mine(0)
+        mine(1)
+        if remaining_mining_time() < 48.00:
+            mine(2)  # 自动加时
     except:
         pass
     cavemine_thread = threading.Timer(5, cave_mine)

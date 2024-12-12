@@ -27,7 +27,7 @@ def login(phone, code):
     return response.json()
 
 
-def 验证token():
+def logintoken():
     get_value("token")
     r = requests.post(
         url="https://block-api.lucklyworld.com/api/user/info",

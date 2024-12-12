@@ -5,7 +5,7 @@ session = Session()
 session.headers = headers
 
 
-def 召回显示乌龟(state, petId):
+def recall_display_turtle(state, petId):
     """
     召回显示乌龟
     state: 1 显示 0 隐藏
@@ -17,7 +17,7 @@ def 召回显示乌龟(state, petId):
     print(response.json())
 
 
-def 获取乌龟信息():
+def get_turtle_information():
     url = "https://block-api.lucklyworld.com/v6/api/blockbeast/pets/index"
 
     response = session.post(url)
@@ -58,7 +58,7 @@ def 获取乌龟信息():
     return res
 
 
-def 升级探测器():
+def upgrade_detector():
     url = "https://block-api.lucklyworld.com/v6/api/pets/detector/upgrade"
 
     response = session.post(url)
@@ -66,7 +66,7 @@ def 升级探测器():
     print(response.json())
 
 
-def 乌龟清理(petId):
+def turtle_cleanup(petId):
     response = session.post(
         url="https://block-api.lucklyworld.com/v6/api/blockbeast/pets/clean",
         data=f"petId={petId}",
@@ -76,7 +76,7 @@ def 乌龟清理(petId):
     print(response.json())
 
 
-def 乌龟喂养(petId):
+def turtle_feeding(petId):
     response = session.post(
         url="https://block-api.lucklyworld.com/v6/api/blockbeast/pets/feed",
         data=f"petId={petId}",
@@ -86,19 +86,19 @@ def 乌龟喂养(petId):
     print(response.json())
 
 
-def 捡起宝石():
+def pickup_gems():
     url = "https://block-api.lucklyworld.com/v6/api/pets/pickup/rocks"
     response = session.post(url)
     return response.json()
 
 
-def 宠物心跳():
+def pet_heartbeat():
     url = "https://block-api.lucklyworld.com/v6/api/blockbeast/pets/desktop/ping"
     response = session.post(url)
     return response.json()
 
 
-def 捡宝历史():
+def treasure_hunt_history():
     url = "https://block-api.lucklyworld.com/v6/api/pets/pickup/rocks/logs"
     response = session.post(url)
     return response.json()

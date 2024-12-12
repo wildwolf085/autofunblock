@@ -1,5 +1,5 @@
 import time
-from lib.cameoshell import 贝壳信息, 贝壳市场, 贝壳交易
+from lib.cameoshell import shell_information, shell_market, shell_transaction
 import threading
 
 
@@ -21,7 +21,7 @@ def update_wallet_info():
     """钱包"""
     global shells_info
     try:
-        index = 贝壳信息()
+        index = shell_information()
         shells_info["myshells"] = round(float(index["shells"]))
         shells_info["myrocks"] = round(float(index["rocks"]), 2)
     except Exception as e:
@@ -34,8 +34,8 @@ def update_market_info():
     """更新市场信息"""
     global shells_info
 
-    data1 = 贝壳市场(0)[0]
-    data2 = 贝壳市场(1)[0]
+    data1 = shell_market(0)[0]
+    data2 = shell_market(1)[0]
 
     if shells_info["tradeId1"] != int(data1["tradeId"]) or shells_info[
         "tradeId2"
@@ -59,7 +59,7 @@ def update_market_info():
 
 def buy_shell(id, quantity):
     """购买"""
-    r = 贝壳交易(0, id, quantity)
+    r = shell_transaction(0, id, quantity)
     if r.get("errorCode"):
         print(f"购买失败: {r.get('message')}")
         return False
@@ -70,7 +70,7 @@ def buy_shell(id, quantity):
 
 def sell_shell(id, quantity):
     """出售"""
-    r = 贝壳交易(1, id, quantity)
+    r = shell_transaction(1, id, quantity)
     if r.get("errorCode"):
         print(f"出售失败: {r.get('message')}")
         return False

@@ -5,7 +5,7 @@ session = Session()
 session.headers = headers
 
 
-def 贝壳信息():
+def shell_information():
     response = session.post(
         url="https://block-api.lucklyworld.com/v6/api/pets/shells/trade/index",
         headers=headers,
@@ -13,7 +13,7 @@ def 贝壳信息():
     return response.json()
 
 
-def 贝壳市场(type, page=1):
+def shell_market(type, page=1):
     """
     type: 0 求购中, 1 出售中
     """
@@ -27,7 +27,7 @@ def 贝壳市场(type, page=1):
     return response.json()["list"]
 
 
-def 贝壳交易(type, tradeId, quantity):
+def shell_transaction(type, tradeId, quantity):
     """
     type: 0 购买, 1 出售
     tradeId: 交易id

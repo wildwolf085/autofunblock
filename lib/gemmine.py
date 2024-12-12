@@ -5,7 +5,7 @@ session = Session()
 session.headers = headers
 
 
-def 挖矿(state):
+def mine(state):
     """
     state 0: 暂停挖矿
     state 1: 开始挖矿
@@ -21,7 +21,7 @@ def 挖矿(state):
     return response.json()
 
 
-def 剩余挖矿时间():
+def remaining_mining_time():
     url = "https://block-api.lucklyworld.com/v11/api/cave/auto/digging/page"
 
     response = session.post(url)

@@ -3,17 +3,17 @@ import json
 from lib.logininfo import headers
 
 
-def 游戏入场(筹码):
+def game_entry(chips):
     url = "https://block-api.lucklyworld.com/v11/api/multi/game/start"
 
-    payload = f"multi={筹码}"
+    payload = f"multi={chips}"
 
     response = requests.post(url, data=payload, headers=headers)
 
     print(response.json())
 
 
-def 游戏提交():
+def submitgame():
     url = "https://block-api.lucklyworld.com/v11/api/multi/game/chess/select"
 
     payload = json.dumps(
@@ -73,7 +73,7 @@ def 游戏提交():
     print(response.json())
 
 
-def 游戏结算():
+def game_settlement():
     url = "https://block-api.lucklyworld.com/v11/api/multi/game/end"
 
     response = requests.post(url, headers=headers)
