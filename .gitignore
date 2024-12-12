@@ -1,0 +1,8 @@
+*.ini
+__pycache__
+build
+dist
+data
+*.spec
+*.log
+*.ipynb

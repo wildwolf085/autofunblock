@@ -1,0 +1,61 @@
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+# 工作流程名称
+name: Build exe
+
+on:
+    # 允许用户手动触发工作流程
+    workflow_dispatch:
+    # 仓库收到 push 和 pr 时触发工作流程
+    push:
+        branches: ["master"]
+    pull_request:
+        branches: ["master"]
+
+# GITHUB_TOKEN 的权限
+permissions:
+    contents: read
+
+jobs:
+    build:
+        # 指定运行环境
+        runs-on: windows-latest
+        # 任务步骤
+        steps:
+            # 拉取仓库代码（必须）
+            - uses: actions/checkout@v4.1.5
+            # 设置 Python 版本
+            - name: Set up Python
+              uses: actions/setup-python@v5.1.0
+              with:
+                  python-version: "3.10"
+                  # 从缓存中安装 pip (跳过下载过程)
+                  cache: "pip"
+            # pip 安装依赖
+            - name: Install dependencies
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install -r requirements.txt
+            # 打包 exe
+            - name: Package
+              run: |
+                  pyinstaller -F 登录.py -i res/favicon.ico
+                  pyinstaller -F 乌龟-挂机.py -i res/favicon.ico
+                  pyinstaller -F 大逃杀-监控.py -i res/favicon.ico
+                  pyinstaller -F 大逃杀-定投.py -i res/favicon.ico
+                  pyinstaller -F 虎口逃生-定投.py -i res/favicon.ico
+                  pyinstaller -F 贝壳-倒狗.py -i res/favicon.ico
+                  pyinstaller -F 宝石-赠送.py -i res/favicon.ico
+                  pyinstaller -F 方块兽.py -i res/favicon.ico
+
+            # 上传结果为 artifact
+            - name: Upload results
+              uses: actions/upload-artifact@v4.3.3
+              with:
+                  name: result_exe
+                  # 结果文件（可以是单个文件，多个文件）
+                  path: dist
+                  # 压缩级别(默认0, 0-9, 0 为不压缩)
+                  compression-level: 0
+                  # 保留时间(默认90)
+                  retention-days: 90
